@@ -1,17 +1,21 @@
 package example;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Stream;
-
+import java.util.ArrayList;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.Relationship;
+import org.neo4j.graphdb.RelationshipType;
 import org.neo4j.graphdb.index.Index;
 import org.neo4j.graphdb.index.IndexManager;
 import org.neo4j.logging.Log;
 import org.neo4j.procedure.*;
+
 
 import static org.neo4j.helpers.collection.MapUtil.stringMap;
 
@@ -183,4 +187,40 @@ public class FullTextIndex
     {
         return "label-" + label;
     }
+    
+    
+    @Procedure(mode = Mode.READ)
+    @Description("example.getNodeProps([nodes]) - returns a list of node Properties")
+    public List<Object> getNodeProps(@Name("nodes") List<Node> nodes, @Name("property") String property) {
+        Iterator<Node> it = nodes.iterator();
+        List<Object> props = new ArrayList<Object>();
+        if (it.hasNext()) {           
+            Node node = it.next();
+            	props.add(node.getProperty(property, null));
+            while (it.hasNext()) {
+                Node next = it.next();               
+                node = next;
+            		props.add(node.getProperty(property, null));
+            }
+        }
+        return props;
+    }
+
+    @Procedure(mode = Mode.READ)
+    @Description("example.getRelProps([nodes]) - returns a list of Relationship Properties")
+    public List<Object> getRelProps(@Name("rels") List<Relationship> rels, @Name("property") String property) {
+        Iterator<Relationship> it = rels.iterator();
+        List<Object> props = new ArrayList<Object>();
+        if (it.hasNext()) {           
+            Relationship rel = it.next();
+            	props.add(rel.getProperty(property, null));
+            while (it.hasNext()) {
+                Relationship next = it.next();               
+                rel = next;
+            		props.add(rel.getProperty(property, null));
+            }
+        }
+        return props;
+    }
+    
 }
