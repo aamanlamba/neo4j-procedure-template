@@ -15,9 +15,11 @@ import org.neo4j.graphdb.index.Index;
 import org.neo4j.graphdb.index.IndexManager;
 import org.neo4j.logging.Log;
 import org.neo4j.procedure.*;
-
+import example.ListResult;
 
 import static org.neo4j.helpers.collection.MapUtil.stringMap;
+
+
 
 /**
  * This is an example showing how you could expose Neo4j's full text indexes as
@@ -191,7 +193,7 @@ public class FullTextIndex
     
     @Procedure(mode = Mode.READ)
     @Description("example.getNodeProps([nodes]) - returns a list of node Properties")
-    public List<Object> getNodeProps(@Name("nodes") List<Node> nodes, @Name("property") String property) {
+    public Stream<ListResult> getNodeProps(@Name("nodes") List<Node> nodes, @Name("property") String property) {
         Iterator<Node> it = nodes.iterator();
         List<Object> props = new ArrayList<Object>();
         if (it.hasNext()) {           
@@ -203,12 +205,12 @@ public class FullTextIndex
             		props.add(node.getProperty(property, null));
             }
         }
-        return props;
+        return Stream.of(new ListResult(props));
     }
 
     @Procedure(mode = Mode.READ)
     @Description("example.getRelProps([nodes]) - returns a list of Relationship Properties")
-    public List<Object> getRelProps(@Name("rels") List<Relationship> rels, @Name("property") String property) {
+    public Stream<ListResult> getRelProps(@Name("rels") List<Relationship> rels, @Name("property") String property) {
         Iterator<Relationship> it = rels.iterator();
         List<Object> props = new ArrayList<Object>();
         if (it.hasNext()) {           
@@ -220,7 +222,7 @@ public class FullTextIndex
             		props.add(rel.getProperty(property, null));
             }
         }
-        return props;
+        return Stream.of(new ListResult(props));
     }
     
 }
