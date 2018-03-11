@@ -1,4 +1,4 @@
-package example;
+package com.aaman.neo4j;
 public class ObjectResult {
     public final Object value;
 

@@ -9,6 +9,8 @@ import org.neo4j.driver.v1.GraphDatabase;
 import org.neo4j.driver.v1.Session;
 import org.neo4j.harness.junit.Neo4jRule;
 
+import com.aaman.neo4j.Join;
+
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.*;
 
@@ -32,7 +34,7 @@ public class JoinTest
             Session session = driver.session();
 
             // When
-            String result = session.run( "RETURN example.join(['Hello', 'World']) AS result").single().get("result").asString();
+            String result = session.run( "RETURN com.aaman.neo4j.join(['Hello', 'World']) AS result").single().get("result").asString();
 
             // Then
             assertThat( result, equalTo( "Hello,World" ) );

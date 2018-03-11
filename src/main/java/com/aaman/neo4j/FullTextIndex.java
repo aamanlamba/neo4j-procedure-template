@@ -1,28 +1,40 @@
-package example;
+package com.aaman.neo4j;
 
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Stream;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.util.ArrayList;
+
+import org.codehaus.jackson.JsonFactory;
+import org.codehaus.jackson.JsonGenerator;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.QueryExecutionException;
 import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.RelationshipType;
+import org.neo4j.graphdb.Result;
+import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.index.Index;
 import org.neo4j.graphdb.index.IndexManager;
 import org.neo4j.logging.Log;
+
 import org.neo4j.procedure.*;
-import example.ListResult;
+
+import com.aaman.neo4j.ListResult;
 
 import static org.neo4j.helpers.collection.MapUtil.stringMap;
 
 
 
 /**
- * This is an example showing how you could expose Neo4j's full text indexes as
+ * This is an com.aaman.neo4j showing how you could expose Neo4j's full text indexes as
  * two procedures - one for updating indexes, and one for querying by label and
  * the lucene query language.
  */
@@ -77,7 +89,7 @@ public class FullTextIndex
      * @return the nodes found by the query
      */
     // TODO: This is here as a workaround, because index().forNodes() is not read-only
-    @Procedure(value = "example.search", mode = Mode.WRITE)
+    @Procedure(value = "com.aaman.neo4j.search", mode = Mode.WRITE)
     @Description("Execute lucene query in the given index, return found nodes")
     public Stream<SearchHit> search( @Name("label") String label,
                                      @Name("query") String query )
@@ -120,7 +132,7 @@ public class FullTextIndex
      * @param propKeys a list of property keys to index, only the ones the node
      *                 actually contains will be added
      */
-    @Procedure(value = "example.index", mode=Mode.SCHEMA)
+    @Procedure(value = "com.aaman.neo4j.index", mode=Mode.SCHEMA)
     @Description("For the node with the given node-id, add properties for the provided keys to index per label")
     public void index( @Name("nodeId") long nodeId,
                        @Name("properties") List<String> propKeys )
@@ -133,7 +145,7 @@ public class FullTextIndex
         Set<Map.Entry<String,Object>> properties =
                 node.getProperties( propKeys.toArray( new String[0] ) ).entrySet();
 
-        // Index every label (this is just as an example, we could filter which labels to index)
+        // Index every label (this is just as an com.aaman.neo4j, we could filter which labels to index)
         for ( Label label : node.getLabels() )
         {
             Index<Node> index = db.index().forNodes( indexName( label.name() ), FULL_TEXT );
@@ -192,7 +204,7 @@ public class FullTextIndex
     
     
     @Procedure(mode = Mode.READ)
-    @Description("example.getNodeProps([nodes]) - returns a list of node Properties")
+    @Description("com.aaman.neo4j.getNodeProps([nodes]) - returns a list of node Properties")
     public Stream<ListResult> getNodeProps(@Name("nodes") List<Node> nodes, @Name("property") String property) {
         Iterator<Node> it = nodes.iterator();
         List<Object> props = new ArrayList<Object>();
@@ -209,7 +221,7 @@ public class FullTextIndex
     }
 
     @Procedure(mode = Mode.READ)
-    @Description("example.getRelProps([nodes]) - returns a list of Relationship Properties")
+    @Description("com.aaman.neo4j.getRelProps([nodes]) - returns a list of Relationship Properties")
     public Stream<ListResult> getRelProps(@Name("rels") List<Relationship> rels, @Name("property") String property) {
         Iterator<Relationship> it = rels.iterator();
         List<Object> props = new ArrayList<Object>();
@@ -223,6 +235,43 @@ public class FullTextIndex
             }
         }
         return Stream.of(new ListResult(props));
+    }
+    
+    
+    @Procedure(name = "com.aaman.neo4j.CyphertoJSON", mode = Mode.READ)
+    @Description("CALL com.aaman.neo4j.CyphertoJSON(cypherQuery, file) - Returns JSON array of results from Cypher Query")
+    public Stream<StringResult> CyphertoJSON(@Name("cypherQuery") String cypherQuery) throws InterruptedException,QueryExecutionException {
+        ArrayList<ArrayList> paths = new ArrayList<>();
+       
+
+		JsonFactory jsonfactory = new JsonFactory();
+		Writer writer = new StringWriter();
+		String json = null;
+		try (Transaction tx = db.beginTx()) {
+		Result result = db.execute("Match (m:Movie) return m.name");	
+		
+		try {
+		        JsonGenerator jsonGenerator = jsonfactory.createJsonGenerator(writer);
+		        jsonGenerator.writeStartObject();
+
+				while (result.hasNext()) {
+            		Map<String,Object> row = result.next();
+            	 	for ( Entry<String,Object> column : row.entrySet() ){
+            		 	jsonGenerator.writeString(column.getKey() + ":" + column.getValue());
+            	 	}
+            	}
+		        jsonGenerator.writeEndArray();
+		        jsonGenerator.writeEndObject();
+		        jsonGenerator.close();
+		        json = writer.toString();
+		    } catch (IOException e) {
+		        e.printStackTrace();
+		    }
+		tx.success();
+		}
+		
+			return Stream.of(new StringResult(json));
+
     }
     
 }

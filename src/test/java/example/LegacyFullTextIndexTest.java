@@ -6,6 +6,8 @@ import org.neo4j.driver.v1.*;
 import org.neo4j.graphdb.factory.GraphDatabaseSettings;
 import org.neo4j.harness.junit.Neo4jRule;
 
+import com.aaman.neo4j.FullTextIndex;
+
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertThat;
 import static org.neo4j.driver.v1.Values.parameters;
@@ -35,10 +37,10 @@ public class LegacyFullTextIndexTest
                     .get( 0 ).asLong();
 
             // When I use the index procedure to index a node
-            session.run( "CALL example.index({id}, ['name'])", parameters( "id", nodeId ) );
+            session.run( "CALL com.aaman.neo4j.index({id}, ['name'])", parameters( "id", nodeId ) );
 
             // Then I can search for that node with lucene query syntax
-            StatementResult result = session.run( "CALL example.search('User', 'name:Brook*')" );
+            StatementResult result = session.run( "CALL com.aaman.neo4j.search('User', 'name:Brook*')" );
             assertThat( result.single().get( "nodeId" ).asLong(), equalTo( nodeId ) );
         }
     }

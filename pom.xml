@@ -43,7 +43,6 @@
       <groupId>org.neo4j.driver</groupId>
       <artifactId>neo4j-java-driver</artifactId>
       <version>1.2.0</version>
-      <scope>test</scope>
     </dependency>
 
     <dependency>
@@ -52,6 +51,95 @@
       <version>4.12</version>
       <scope>test</scope>
     </dependency>
+    
+    <dependency>
+      <groupId>org.codehaus.jackson</groupId>
+      <artifactId>jackson-mapper-asl</artifactId>
+      <version>1.9.11</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.googlecode.json-simple</groupId>
+      <artifactId>json-simple</artifactId>
+      <version>1.1</version>
+      <scope>compile</scope>
+    </dependency>
+      	<dependency>
+  		<groupId>net.sf.jung</groupId>
+  		<artifactId>jung-api</artifactId>
+  		<version>2.1.1</version>
+  	</dependency>
+  	<!-- https://mvnrepository.com/artifact/net.sf.jung/jung-visualization -->
+<dependency>
+    <groupId>net.sf.jung</groupId>
+    <artifactId>jung-visualization</artifactId>
+    <version>2.1.1</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/net.sf.jung/jung-graph-impl -->
+<dependency>
+    <groupId>net.sf.jung</groupId>
+    <artifactId>jung-graph-impl</artifactId>
+    <version>2.1.1</version>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/net.sf.jung/jung-algorithms -->
+<dependency>
+    <groupId>net.sf.jung</groupId>
+    <artifactId>jung-algorithms</artifactId>
+    <version>2.1.1</version>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/net.sf.jung/jung-io -->
+<dependency>
+    <groupId>net.sf.jung</groupId>
+    <artifactId>jung-io</artifactId>
+    <version>2.1.1</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/org.neo4j/neo4j-ogm-embedded-driver -->
+<dependency>
+    <groupId>org.neo4j</groupId>
+    <artifactId>neo4j-ogm-embedded-driver</artifactId>
+    <version>3.1.0</version>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/org.neo4j/neo4j-ogm -->
+<dependency>
+    <groupId>org.neo4j</groupId>
+    <artifactId>neo4j-ogm</artifactId>
+    <version>3.1.0</version>
+    <type>pom</type>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-collections4 -->
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-collections4</artifactId>
+    <version>4.1</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/org.neo4j/neo4j-common -->
+<dependency>
+    <groupId>org.neo4j</groupId>
+    <artifactId>neo4j-common</artifactId>
+    <version>3.3.3</version>
+    <scope>test</scope>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/org.neo4j/neo4j-community -->
+<dependency>
+    <groupId>org.neo4j</groupId>
+    <artifactId>neo4j-community</artifactId>
+    <version>3.3.3</version>
+    <type>pom</type>
+</dependency>
+
+
+<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+<dependency>
+    <groupId>commons-io</groupId>
+    <artifactId>commons-io</artifactId>
+    <version>2.6</version>
+</dependency>
+    
   </dependencies>
 
   <build>
@@ -81,6 +169,39 @@
             </goals>
           </execution>
         </executions>
+      </plugin>
+    <!-- 
+   Copy jar to neo4j-plugins
+     -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>3.0.2</version>
+        <executions>
+          <execution>
+            <id>copy</id>
+            <phase>package</phase>
+            <goals>
+              <goal>copy</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <artifactItems>
+            <artifactItem>
+  			<groupId>org.neo4j.example</groupId>
+  			<artifactId>procedure-template</artifactId>
+              <version>1.0.0-SNAPSHOT</version>
+              <type>jar</type>
+              <overWrite>false</overWrite>
+              <outputDirectory>/Users/aamanlamba/Documents/Neo4j/default.graphdb/plugins</outputDirectory>
+              
+            </artifactItem>
+          </artifactItems>
+          <outputDirectory>${project.build.directory}/wars</outputDirectory>
+          <overWriteReleases>false</overWriteReleases>
+          <overWriteSnapshots>true</overWriteSnapshots>
+        </configuration>
       </plugin>
     </plugins>
   </build>
