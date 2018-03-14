@@ -11,7 +11,7 @@ import com.aaman.neo4j.FullTextIndex;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertThat;
 import static org.neo4j.driver.v1.Values.parameters;
-
+@SuppressWarnings("unused")
 public class LegacyFullTextIndexTest
 {
     // This rule starts a Neo4j instance for us

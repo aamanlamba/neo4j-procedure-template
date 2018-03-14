@@ -30,8 +30,7 @@ import org.neo4j.procedure.*;
 import com.aaman.neo4j.ListResult;
 
 import static org.neo4j.helpers.collection.MapUtil.stringMap;
-
-
+@SuppressWarnings("unused")
 
 /**
  * This is an com.aaman.neo4j showing how you could expose Neo4j's full text indexes as
@@ -241,7 +240,8 @@ public class FullTextIndex
     @Procedure(name = "com.aaman.neo4j.CyphertoJSON", mode = Mode.READ)
     @Description("CALL com.aaman.neo4j.CyphertoJSON(cypherQuery, file) - Returns JSON array of results from Cypher Query")
     public Stream<StringResult> CyphertoJSON(@Name("cypherQuery") String cypherQuery) throws InterruptedException,QueryExecutionException {
-        ArrayList<ArrayList> paths = new ArrayList<>();
+      
+		ArrayList<ArrayList> paths = new ArrayList<>();
        
 
 		JsonFactory jsonfactory = new JsonFactory();

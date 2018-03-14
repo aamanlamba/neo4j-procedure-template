@@ -5,7 +5,7 @@
 
   <groupId>org.neo4j.example</groupId>
   <artifactId>procedure-template</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>1.0.1-SNAPSHOT</version>
 
   <packaging>jar</packaging>
   <name>Neo4j Procedure Template</name>
@@ -109,6 +109,79 @@
     <version>3.1.0</version>
     <type>pom</type>
 </dependency>
+
+<!-- https://mvnrepository.com/artifact/org.freehep/freehep-graphicsio -->
+<dependency>
+    <groupId>org.freehep</groupId>
+    <artifactId>freehep-graphicsio</artifactId>
+    <version>2.4</version>
+</dependency>
+
+
+
+<!-- https://mvnrepository.com/artifact/org.freehep/freehep-graphics2d -->
+<dependency>
+    <groupId>org.freehep</groupId>
+    <artifactId>freehep-graphics2d</artifactId>
+    <version>2.4</version>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/org.freehep/freehep-graphicsbase -->
+<dependency>
+    <groupId>org.freehep</groupId>
+    <artifactId>freehep-graphicsbase</artifactId>
+    <version>2.4</version>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/org.freehep/freehep-graphicsio-svg -->
+<dependency>
+    <groupId>org.freehep</groupId>
+    <artifactId>freehep-graphicsio-svg</artifactId>
+    <version>2.4</version>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/org.apache.xmlgraphics/batik-dom -->
+<dependency>
+    <groupId>org.apache.xmlgraphics</groupId>
+    <artifactId>batik-dom</artifactId>
+    <version>1.9.1</version>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/org.apache.xmlgraphics/batik-svggen -->
+<dependency>
+    <groupId>org.apache.xmlgraphics</groupId>
+    <artifactId>batik-svggen</artifactId>
+    <version>1.9.1</version>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/org.apache.xmlgraphics/batik-transcoder -->
+<dependency>
+    <groupId>org.apache.xmlgraphics</groupId>
+    <artifactId>batik-transcoder</artifactId>
+    <version>1.9.1</version>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/org.apache.xmlgraphics/batik-util -->
+<dependency>
+    <groupId>org.apache.xmlgraphics</groupId>
+    <artifactId>batik-util</artifactId>
+    <version>1.9.1</version>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/org.apache.xmlgraphics/xmlgraphics-commons -->
+<dependency>
+    <groupId>org.apache.xmlgraphics</groupId>
+    <artifactId>xmlgraphics-commons</artifactId>
+    <version>2.2</version>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/org.apache.xmlgraphics/batik-svg-dom -->
+<dependency>
+    <groupId>org.apache.xmlgraphics</groupId>
+    <artifactId>batik-svg-dom</artifactId>
+    <version>1.9.1</version>
+</dependency>
+
 
 <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-collections4 -->
 <dependency>
