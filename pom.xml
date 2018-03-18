@@ -3,16 +3,16 @@
                       http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.neo4j.example</groupId>
+  <groupId>com.aaman.neo4j</groupId>
   <artifactId>procedure-template</artifactId>
-  <version>1.0.1-SNAPSHOT</version>
+  <version>1.0.0-SNAPSHOT</version>
 
   <packaging>jar</packaging>
   <name>Neo4j Procedure Template</name>
   <description>A template project for building a Neo4j Procedure</description>
 
   <properties>
-    <neo4j.version>3.1.3</neo4j.version>
+    <neo4j.version>3.3.1</neo4j.version>
   </properties>
 
   <dependencies>
@@ -42,8 +42,11 @@
       <!-- Used to send cypher statements to our procedure. -->
       <groupId>org.neo4j.driver</groupId>
       <artifactId>neo4j-java-driver</artifactId>
-      <version>1.2.0</version>
+      <version>1.4.2</version>
+      <scope>test</scope>
     </dependency>
+<!-- https://mvnrepository.com/artifact/org.neo4j/neo4j-slf4j -->
+
 
     <dependency>
       <groupId>junit</groupId>
@@ -51,6 +54,7 @@
       <version>4.12</version>
       <scope>test</scope>
     </dependency>
+    
     
     <dependency>
       <groupId>org.codehaus.jackson</groupId>
@@ -140,48 +144,6 @@
     <version>2.4</version>
 </dependency>
 
-<!-- https://mvnrepository.com/artifact/org.apache.xmlgraphics/batik-dom -->
-<dependency>
-    <groupId>org.apache.xmlgraphics</groupId>
-    <artifactId>batik-dom</artifactId>
-    <version>1.9.1</version>
-</dependency>
-
-<!-- https://mvnrepository.com/artifact/org.apache.xmlgraphics/batik-svggen -->
-<dependency>
-    <groupId>org.apache.xmlgraphics</groupId>
-    <artifactId>batik-svggen</artifactId>
-    <version>1.9.1</version>
-</dependency>
-
-<!-- https://mvnrepository.com/artifact/org.apache.xmlgraphics/batik-transcoder -->
-<dependency>
-    <groupId>org.apache.xmlgraphics</groupId>
-    <artifactId>batik-transcoder</artifactId>
-    <version>1.9.1</version>
-</dependency>
-
-<!-- https://mvnrepository.com/artifact/org.apache.xmlgraphics/batik-util -->
-<dependency>
-    <groupId>org.apache.xmlgraphics</groupId>
-    <artifactId>batik-util</artifactId>
-    <version>1.9.1</version>
-</dependency>
-
-<!-- https://mvnrepository.com/artifact/org.apache.xmlgraphics/xmlgraphics-commons -->
-<dependency>
-    <groupId>org.apache.xmlgraphics</groupId>
-    <artifactId>xmlgraphics-commons</artifactId>
-    <version>2.2</version>
-</dependency>
-
-<!-- https://mvnrepository.com/artifact/org.apache.xmlgraphics/batik-svg-dom -->
-<dependency>
-    <groupId>org.apache.xmlgraphics</groupId>
-    <artifactId>batik-svg-dom</artifactId>
-    <version>1.9.1</version>
-</dependency>
-
 
 <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-collections4 -->
 <dependency>
@@ -242,39 +204,6 @@
             </goals>
           </execution>
         </executions>
-      </plugin>
-    <!-- 
-   Copy jar to neo4j-plugins
-     -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <version>3.0.2</version>
-        <executions>
-          <execution>
-            <id>copy</id>
-            <phase>package</phase>
-            <goals>
-              <goal>copy</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <artifactItems>
-            <artifactItem>
-  			<groupId>org.neo4j.example</groupId>
-  			<artifactId>procedure-template</artifactId>
-              <version>1.0.0-SNAPSHOT</version>
-              <type>jar</type>
-              <overWrite>false</overWrite>
-              <outputDirectory>/Users/aamanlamba/Documents/Neo4j/default.graphdb/plugins</outputDirectory>
-              
-            </artifactItem>
-          </artifactItems>
-          <outputDirectory>${project.build.directory}/wars</outputDirectory>
-          <overWriteReleases>false</overWriteReleases>
-          <overWriteSnapshots>true</overWriteSnapshots>
-        </configuration>
       </plugin>
     </plugins>
   </build>
